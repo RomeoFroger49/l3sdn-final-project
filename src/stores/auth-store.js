@@ -14,5 +14,14 @@ export const useAuthStore = defineStore("auth", {
       return this.isAuth;
     },
   },
-  actions: {},
+  actions: {
+    login(roles) {
+      this.isAuth = true;
+      this.roles = roles;
+    },
+    logout() {
+      this.isAuth = false;
+      this.roles = [];
+    },
+  },
 });
