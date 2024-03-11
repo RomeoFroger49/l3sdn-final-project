@@ -24,7 +24,7 @@ export default route(function (/* { store, ssrContext } */) {
     ? createWebHistory
     : createWebHashHistory;
 
-  const isAuthenticated = useAuthStore().isAuth;
+  const isAuth = useAuthStore().isAuthenticated;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -33,8 +33,22 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach((to, from) => {
-    if (!isAuthenticated && to.path !== "/login") {
+    if (!isAuth && to.path !== "/login") {
       return { path: "/login" };
+    }
+
+    if (to.meta.requiresAuth && isAuth) {
+      const roles = useAuthStore().roles;
+
+      if (to.meta.roles && to.meta.roles.some((role) => roles.includes(role))) {
+        return true;
+      }
+      else if (to.meta.roles && !to.meta.roles.some((role) => roles.includes(role))) {
+        return {path: "/unauthorized"};
+      }
+      else {
+        return true;
+      }
     }
   });
 

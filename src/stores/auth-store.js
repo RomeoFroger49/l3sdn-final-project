@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from "pinia";
+import { ref } from "vue";
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
     isAuth: ref(false),
     roles: ref([]),
@@ -10,10 +10,9 @@ export const useAuthStore = defineStore('auth', {
     hasRole(roles) {
       return this.roles.includes(roles) ? true : false;
     },
-    isAuthh() {
+    isAuthenticated() {
       return this.isAuth;
-    }
+    },
   },
-  actions: {
-  },
-})
+  actions: {},
+});
