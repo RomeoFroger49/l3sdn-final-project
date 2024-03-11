@@ -1,21 +1,24 @@
+import { AdminRoles } from "src/const/adminRoles";
+
 const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
-    meta: { requiresAuth: true, roles: ["user"] },
+    children: [
+      { path: "", component: () => import("pages/IndexPage.vue") },
+      {
+        path: "/users",
+        component: () => import("pages/UsersPage.vue"),
+        meta: { roles: [AdminRoles.RH] },
+      },
+    ],
+    meta: { requiresAuth: true },
   },
   {
     path: "/login",
     component: () => import("layouts/AuthLayout.vue"),
     children: [{ path: "", component: () => import("pages/LoginPage.vue") }],
     meta: { requiresAuth: false },
-  },
-  {
-    path: "/users",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/UsersPage.vue") }],
-    meta: { requiresAuth: true, roles: ["RH"] },
   },
   {
     path: "/unauthorized",

@@ -25,7 +25,7 @@ export default route(function (/* { store, ssrContext } */) {
     : createWebHashHistory;
 
   const isAuth = useAuthStore().isAuthenticated;
-  const roles = useAuthStore().roles;
+      const roles = useAuthStore().roles;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
@@ -39,14 +39,14 @@ export default route(function (/* { store, ssrContext } */) {
     }
 
     if (to.meta.requiresAuth && isAuth) {
+
       if (to.meta.roles && to.meta.roles.some((role) => roles.includes(role))) {
         return true;
-      } else if (
-        to.meta.roles &&
-        !to.meta.roles.some((role) => roles.includes(role))
-      ) {
-        return { path: "/unauthorized" };
-      } else {
+      }
+      else if (to.meta.roles && !to.meta.roles.some((role) => roles.includes(role))) {
+        return {path: "/unauthorized"};
+      }
+      else {
         return true;
       }
     }
