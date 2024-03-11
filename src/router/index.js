@@ -33,8 +33,8 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach((to, from) => {
-    if (!isAuthenticated && to.path !== '/login') {
-      return { path: '/login' };
+    if (!isAuthenticated && to.path !== "/login") {
+      return { path: "/login" };
     }
   });
 
