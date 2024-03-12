@@ -24,6 +24,9 @@
         />
       </template>
     </q-input>
+    <h6 class="text-negative" :class="isError ? '' : 'hidden'">
+      Email or passoword is incorrect
+    </h6>
     <q-btn color="black" label="connexion" @click="login" />
   </div>
 </template>
@@ -42,20 +45,27 @@ export default defineComponent({
     const email = ref("");
     const password = ref("");
     const isPwd = ref(true);
+    const isError = ref(false);
 
     const togglePasswordVisibility = () => {
       isPwd.value = !isPwd.value;
     };
 
     const login = () => {
-      authStore.login(email.value, password.value).then(() => {
-        if (authStore.isAuthenticated) {
-          console.log("logged in", authStore.getUser, authStore.isAuth);
-          router.push({ path: "/" });
-        } else {
-          console.log("login failed", authStore.getUser);
-        }
-      });
+      authStore
+        .login(email.value, password.value)
+        .then(() => {
+          if (authStore.isAuthenticated) {
+            router.push({ path: "/" });
+          } else {
+            // valeur à passer dans le catch une fois l'api brancher
+            isError.value = true;
+          }
+        })
+        .catch((error) => {
+          // à réfléchir quand on sera brancher à l'api
+          console.error(error, "df");
+        });
     };
 
     return {
@@ -64,6 +74,7 @@ export default defineComponent({
       isPwd,
       togglePasswordVisibility,
       login,
+      isError,
     };
   },
 });
