@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { users } from "src/api/users";
+import { users } from "src/api/user/users";
+import Cookies from "js-cookie";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     email: ref(""),
-    password: ref(""),
     isAuth: ref(false),
     roles: ref([]),
   }),
@@ -27,6 +27,19 @@ export const useAuthStore = defineStore("auth", {
     },
   },
   actions: {
+    // Default
+    setUser(email, roles) {
+      this.email = email;
+      this.roles = roles;
+      this.isAuth = true;
+    },
+    cleanUser() {
+      this.email = "";
+      this.roles = [];
+      this.isAuth = false;
+    },
+
+    //API && Cookies
     async login(email, password) {
       await users.getUsers().then((data) => {
         const user = data.find(
@@ -34,18 +47,20 @@ export const useAuthStore = defineStore("auth", {
         );
 
         if (user) {
-          this.email = user.email;
-          this.password = user.password;
-          this.isAuth = true;
-          this.roles = user.roles;
+          this.setUser(user.email, user.roles);
+          Cookies.set("userInfo", JSON.stringify(user), { expires: 7 });
         }
       });
     },
+    loadUserFromCookie() {
+      if (Cookies.get("userInfo")) {
+        const user = JSON.parse(Cookies.get("userInfo"));
+        this.setUser(user.email, user.roles);
+      }
+    },
     logout() {
-      this.email = "";
-      this.password = "";
-      this.isAuth = false;
-      this.roles = [];
+      this.cleanUser();
+      Cookies.remove("userInfo");
     },
   },
 });
