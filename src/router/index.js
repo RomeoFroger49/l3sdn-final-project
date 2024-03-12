@@ -24,31 +24,33 @@ export default route(function (/* { store, ssrContext } */) {
     ? createWebHistory
     : createWebHashHistory;
 
-  const isAuth = useAuthStore().isAuthenticated;
-      const roles = useAuthStore().roles;
-
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
+
   Router.beforeEach((to, from) => {
-    if (!isAuth && to.path !== "/login") {
+
+    if (!useAuthStore().isAuth && to.path !== "/login") {
       return { path: "/login" };
     }
 
-    if (to.meta.requiresAuth && isAuth) {
+    if (to.meta.requiresAuth && useAuthStore().isAuth) {
+      if (to.meta.roles) {
+        if (to.meta.roles.some((role) => useAuthStore().roles.includes(role))) {
+          return true;
+        } else {
+          return { path: "/unauthorized" };
+        }
+      } else {
+        return true;
+      }
+    }
 
-      if (to.meta.roles && to.meta.roles.some((role) => roles.includes(role))) {
-        return true;
-      }
-      else if (to.meta.roles && !to.meta.roles.some((role) => roles.includes(role))) {
-        return {path: "/unauthorized"};
-      }
-      else {
-        return true;
-      }
+    if (!to.meta.requiresAuth && useAuthStore().isAuth) {
+      return { path: "/" };
     }
   });
 

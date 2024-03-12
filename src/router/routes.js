@@ -1,17 +1,27 @@
+import { AdminRoles } from "src/const/adminRoles";
+
 const routes = [
   {
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/IndexPage.vue") }],
+    children: [
+      { path: "", component: () => import("pages/IndexPage.vue") },
+      {
+        path: "/unauthorized",
+        component: () => import("pages/UnauthorizedPage.vue"),
+      },
+      {
+        path: "/users",
+        component: () => import("pages/UsersPage.vue"),
+        meta: { roles: [AdminRoles.RH] },
+      },
+    ],
+    meta: { requiresAuth: true },
   },
   {
     path: "/login",
     component: () => import("pages/LoginPage.vue"),
-  },
-  {
-    path: "/users",
-    component: () => import("layouts/MainLayout.vue"),
-    children: [{ path: "", component: () => import("pages/UsersPage.vue") }],
+    meta: { requiresAuth: false },
   },
   // Always leave this as last one,
   // but you can also remove it

@@ -29,11 +29,16 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, computed } from "vue";
+import { useAuthStore } from "src/stores/auth-store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "LoginPage",
   setup() {
+    const authStore = useAuthStore();
+    const router = useRouter();
+
     const email = ref("");
     const password = ref("");
     const isPwd = ref(true);
@@ -43,7 +48,14 @@ export default defineComponent({
     };
 
     const login = () => {
-      console.log(email.value, password.value);
+      authStore.login(email.value, password.value).then(() => {
+        if (authStore.isAuthenticated) {
+          console.log("logged in", authStore.getUser, authStore.isAuth);
+          router.push({ path: "/" });
+        } else {
+          console.log("login failed", authStore.getUser);
+        }
+      });
     };
 
     return {
@@ -65,7 +77,7 @@ export default defineComponent({
   flex-direction: column;
   margin: auto;
   width: 50%;
-  height: 50vh;
+  height: 80vh;
 }
 
 .input {
