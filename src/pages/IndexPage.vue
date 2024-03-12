@@ -1,16 +1,21 @@
 <template>
   <button @click="goToLogin()">login</button>
-  <button @click="goToUsers()">users</button>
+  <button v-if="roleRH" @click="goToUsers()">users</button>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from 'src/stores/auth-store'
+import { AdminRoles } from 'src/api/user/adminRoles'
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
     const router = useRouter()
+    const userStore = useAuthStore()
+
+    const roleRH = userStore.hasRole(AdminRoles.RH);
 
     const goToLogin = () => {
       router.push({ path: '/login' })
@@ -23,7 +28,8 @@ export default defineComponent({
     return {
       router,
       goToLogin,
-      goToUsers
+      goToUsers,
+      roleRH
     }
   }
 })

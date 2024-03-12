@@ -10,8 +10,8 @@ export const useAuthStore = defineStore("auth", {
     roles: ref([]),
   }),
   getters: {
-    hasRole(roles) {
-      return this.roles.includes(roles) ? true : false;
+    hasRole: (state) => {
+      return (role) => state.roles.includes(role);
     },
     isAuthenticated() {
       return this.isAuth;

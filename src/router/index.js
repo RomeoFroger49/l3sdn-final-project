@@ -30,16 +30,7 @@ export default route(function (/* { store, ssrContext } */) {
     history: createHistory(process.env.VUE_ROUTER_BASE),
   });
 
-  const waitForStorageToBeReady = async (to, from, next) => {
-    await storeData.restored;
-    next();
-  };
-
-
   Router.beforeEach((to, from) => {
-
-    waitForStorageToBeReady;
-
     if (!useAuthStore().isAuth && to.path !== "/login") {
       return { path: "/login" };
     }
