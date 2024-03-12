@@ -2,14 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title @click="goToHome()"> Quasar App </q-toolbar-title>
 
@@ -30,12 +23,12 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useAuthStore } from "src/stores/auth-store";
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAuthStore } from 'src/stores/auth-store';
 
 export default defineComponent({
-  name: "MainLayout",
+  name: 'MainLayout',
 
   setup() {
     const leftDrawerOpen = ref(false);
@@ -48,7 +41,7 @@ export default defineComponent({
     };
 
     const goToHome = () => {
-      router.push({ path: "/" });
+      router.push({ path: '/' });
     };
 
     return {
@@ -57,8 +50,8 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       goToHome,
-      logout,
+      logout
     };
-  },
+  }
 });
 </script>

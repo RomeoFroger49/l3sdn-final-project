@@ -1,5 +1,5 @@
 export class users {
-  static Path = "../../users.json";
+  static Path = '../../users.json';
 
   static async getUsers() {
     const response = await fetch(this.Path);

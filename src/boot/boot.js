@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import { useAuthStore } from 'src/stores/auth-store';
-import { createPinia } from "pinia";
+import { createPinia } from 'pinia';
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -10,13 +10,11 @@ import { createPinia } from "pinia";
 // for each client)
 
 export default boot(({ app }) => {
-
   const pinia = createPinia();
   app.use(pinia);
 
   const userStore = useAuthStore();
-  userStore.loadUserFromCookie();
+  userStore.loadUserFromLocalStorage();
+});
 
-})
-
-export { boot }
+export { boot };

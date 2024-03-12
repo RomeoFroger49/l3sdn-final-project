@@ -1,14 +1,7 @@
 <template>
   <div class="container">
     <h3 class="title">Se connecter | rhTool</h3>
-    <q-input
-      v-model="email"
-      filled
-      type="email"
-      hint="Email"
-      class="input"
-      color=""
-    />
+    <q-input v-model="email" filled type="email" hint="Email" class="input" color="" />
     <q-input
       v-model="password"
       filled
@@ -24,26 +17,24 @@
         />
       </template>
     </q-input>
-    <h6 class="text-negative" :class="isError ? '' : 'hidden'">
-      Email or passoword is incorrect
-    </h6>
+    <h6 class="text-negative" :class="isError ? '' : 'hidden'">Email or passoword is incorrect</h6>
     <q-btn color="black" label="connexion" @click="login" />
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, computed } from "vue";
-import { useAuthStore } from "src/stores/auth-store";
-import { useRouter } from "vue-router";
+import { defineComponent, ref, computed } from 'vue';
+import { useAuthStore } from 'src/stores/auth-store';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: "LoginPage",
+  name: 'LoginPage',
   setup() {
     const authStore = useAuthStore();
     const router = useRouter();
 
-    const email = ref("");
-    const password = ref("");
+    const email = ref('');
+    const password = ref('');
     const isPwd = ref(true);
     const isError = ref(false);
 
@@ -56,7 +47,7 @@ export default defineComponent({
         .login(email.value, password.value)
         .then(() => {
           if (authStore.isAuthenticated) {
-            router.push({ path: "/" });
+            router.push({ path: '/' });
           } else {
             // valeur à passer dans le catch une fois l'api brancher
             isError.value = true;
@@ -64,7 +55,6 @@ export default defineComponent({
         })
         .catch((error) => {
           // à réfléchir quand on sera brancher à l'api
-          console.error(error, "df");
         });
     };
 
@@ -74,9 +64,9 @@ export default defineComponent({
       isPwd,
       togglePasswordVisibility,
       login,
-      isError,
+      isError
     };
-  },
+  }
 });
 </script>
 

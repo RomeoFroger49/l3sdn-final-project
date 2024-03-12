@@ -1,12 +1,12 @@
-import { route } from "quasar/wrappers";
+import { route } from 'quasar/wrappers';
 import {
   createRouter,
   createMemoryHistory,
   createWebHistory,
-  createWebHashHistory,
-} from "vue-router";
-import routes from "./routes";
-import { useAuthStore } from "src/stores/auth-store";
+  createWebHashHistory
+} from 'vue-router';
+import routes from './routes';
+import { useAuthStore } from 'src/stores/auth-store';
 
 /*
  * If not building with SSR mode, you can
@@ -20,19 +20,19 @@ import { useAuthStore } from "src/stores/auth-store";
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
     ? createMemoryHistory
-    : process.env.VUE_ROUTER_MODE === "history"
+    : process.env.VUE_ROUTER_MODE === 'history'
     ? createWebHistory
     : createWebHashHistory;
 
   const Router = createRouter({
     scrollBehavior: () => ({ left: 0, top: 0 }),
     routes,
-    history: createHistory(process.env.VUE_ROUTER_BASE),
+    history: createHistory(process.env.VUE_ROUTER_BASE)
   });
 
   Router.beforeEach((to, from) => {
-    if (!useAuthStore().isAuth && to.path !== "/login") {
-      return { path: "/login" };
+    if (!useAuthStore().isAuth && to.path !== '/login') {
+      return { path: '/login' };
     }
 
     if (to.meta.requiresAuth && useAuthStore().isAuth) {
@@ -40,7 +40,7 @@ export default route(function (/* { store, ssrContext } */) {
         if (to.meta.roles.some((role) => useAuthStore().roles.includes(role))) {
           return true;
         } else {
-          return { path: "/unauthorized" };
+          return { path: '/unauthorized' };
         }
       } else {
         return true;
@@ -48,7 +48,7 @@ export default route(function (/* { store, ssrContext } */) {
     }
 
     if (!to.meta.requiresAuth && useAuthStore().isAuth) {
-      return { path: "/" };
+      return { path: '/' };
     }
   });
 
