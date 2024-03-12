@@ -1,4 +1,4 @@
-import { AdminRoles } from "src/const/adminRoles";
+import { AdminRoles } from "src/api/user/adminRoles";
 
 const routes = [
   {
@@ -9,6 +9,10 @@ const routes = [
       {
         path: "/unauthorized",
         component: () => import("pages/UnauthorizedPage.vue"),
+      },
+      {
+        path: "/:catchAll(.*)*",
+        component: () => import("pages/ErrorNotFound.vue"),
       },
       {
         path: "/users",
@@ -22,12 +26,6 @@ const routes = [
     path: "/login",
     component: () => import("pages/LoginPage.vue"),
     meta: { requiresAuth: false },
-  },
-  // Always leave this as last one,
-  // but you can also remove it
-  {
-    path: "/:catchAll(.*)*",
-    component: () => import("pages/ErrorNotFound.vue"),
   },
 ];
 
