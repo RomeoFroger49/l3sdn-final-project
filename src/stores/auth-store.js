@@ -1,13 +1,13 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import { users } from "src/api/user/users";
-import Cookies from "js-cookie";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import { users } from 'src/api/user/users';
+import { LocalStorage } from 'quasar';
 
-export const useAuthStore = defineStore("auth", {
+export const useAuthStore = defineStore('auth', {
   state: () => ({
-    email: ref(""),
+    email: ref(''),
     isAuth: ref(false),
-    roles: ref([]),
+    roles: ref([])
   }),
   getters: {
     hasRole: (state) => {
@@ -21,10 +21,10 @@ export const useAuthStore = defineStore("auth", {
         return {
           email: this.email,
           roles: this.roles,
-          isAuth: this.isAuth,
+          isAuth: this.isAuth
         };
       }
-    },
+    }
   },
   actions: {
     // Default
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore("auth", {
       this.isAuth = true;
     },
     cleanUser() {
-      this.email = "";
+      this.email = '';
       this.roles = [];
       this.isAuth = false;
     },
@@ -42,25 +42,24 @@ export const useAuthStore = defineStore("auth", {
     //API && Cookies
     async login(email, password) {
       await users.getUsers().then((data) => {
-        const user = data.find(
-          (user) => user.email === email && user.password === password
-        );
+        const user = data.find((user) => user.email === email && user.password === password);
 
         if (user) {
           this.setUser(user.email, user.roles);
-          Cookies.set("userInfo", JSON.stringify(user), { expires: 7 });
+
+          LocalStorage.set('userInfo', JSON.stringify(this.getUser));
         }
       });
     },
-    loadUserFromCookie() {
-      if (Cookies.get("userInfo")) {
-        const user = JSON.parse(Cookies.get("userInfo"));
+    loadUserFromLocalStorage() {
+      if (LocalStorage.has('userInfo')) {
+        const user = JSON.parse(LocalStorage.getItem('userInfo'));
         this.setUser(user.email, user.roles);
       }
     },
     logout() {
       this.cleanUser();
-      Cookies.remove("userInfo");
-    },
-  },
+      LocalStorage.remove('userInfo');
+    }
+  }
 });
