@@ -1,24 +1,26 @@
 <template>
   <div class="container">
     <h3 class="title">Se connecter | rhTool</h3>
-    <q-input v-model="email" filled type="email" hint="Email" class="input" color="" />
-    <q-input
-      v-model="password"
-      filled
-      :type="isPwd ? 'password' : 'text'"
-      hint="Password"
-      class="input"
-    >
-      <template v-slot:append>
-        <q-icon
-          :name="isPwd ? 'visibility_off' : 'visibility'"
-          class="cursor-pointer"
-          @click="togglePasswordVisibility"
-        />
-      </template>
-    </q-input>
-    <h6 class="text-negative" :class="isError ? '' : 'hidden'">Email or passoword is incorrect</h6>
-    <q-btn color="black" label="connexion" @click="login" />
+    <q-form class="flex column items-center" @submit.prevent="login()">
+      <q-input v-model="email" filled type="email" hint="Email" class="input" color="" />
+      <q-input
+        v-model="password"
+        filled
+        :type="isPwd ? 'password' : 'text'"
+        hint="Password"
+        class="input"
+      >
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="togglePasswordVisibility"
+          />
+        </template>
+      </q-input>
+      <p class="text-negative" :class="isError ? '' : 'hidden'">Email or password is incorrect</p>
+      <q-btn color="black" type="submit" label="connexion" />
+    </q-form>
   </div>
 </template>
 
