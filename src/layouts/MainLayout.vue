@@ -2,19 +2,30 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
+        <q-toolbar-title @click="goToHome()">
+          <q-icon name="fa-solid fa-screwdriver-wrench" style="padding-inline: 0.5em;" />
+          <span>RhTools</span>
+        </q-toolbar-title>
 
-        <q-toolbar-title @click="goToHome()"> Quasar App </q-toolbar-title>
-
-        <h5 @click="logout()">Logout</h5>
+        <q-btn flat dense round aria-label="menu" icon="menu">
+          <q-menu>
+            <q-list>
+              <q-item
+                v-for="item in listSettings"
+                :key="item.label"
+                clickable
+                @click="item.onClick"
+              >
+                <q-item-section>{{ item.label }}</q-item-section>
+                <q-item-section avatar >
+                  <q-icon :name="item.icon" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -31,9 +42,23 @@ export default defineComponent({
   name: 'MainLayout',
 
   setup() {
-    const leftDrawerOpen = ref(false);
+    const leftDrawerOpen = ref(true);
     const router = useRouter();
     const AuthStore = useAuthStore();
+
+    const listSettings = [
+      {
+        label: 'Profile',
+        icon: 'person'
+      },
+      {
+        label: 'Logout',
+        icon: 'logout',
+        onClick: () => {
+          logout();
+        }
+      }
+    ];
 
     const logout = () => {
       AuthStore.logout();
@@ -50,7 +75,9 @@ export default defineComponent({
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
       goToHome,
-      logout
+      logout,
+      AuthStore,
+      listSettings
     };
   }
 });
