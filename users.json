@@ -1,14 +1,33 @@
-
 [
   {
+    "id": 1,
     "email": "dev@dev.dev",
     "password": "dev",
-    "roles": "MANAGER"
+    "roles": "RH",
+    "manager": [2, 3, 4]
   },
   {
+    "id": 2,
     "email": "jojo@dev.dev",
     "password": "jojo",
-    "roles": "RH"
+    "roles": "MANAGER",
+    "manager": [3, 4],
+    "managé": 1
+  },
+  {
+    "id": 3,
+    "email": "test@dev.dev",
+    "password": "test",
+    "roles": "MANAGER",
+    "manager": [],
+    "managé": 2
+  },
+  {
+    "id": 4,
+    "email": "djaymen@dev.dev",
+    "password": "aymen",
+    "roles": "MANAGER",
+    "manager": [],
+    "managé": 2
   }
 ]
-

@@ -31,11 +31,11 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach((to, from) => {
-    if (!useAuthStore().isAuth && to.path !== '/login') {
+    if (!useAuthStore().isAuthenticated && to.path !== '/login') {
       return { path: '/login' };
     }
 
-    if (to.meta.requiresAuth && useAuthStore().isAuth) {
+    if (to.meta.requiresAuth && useAuthStore().isAuthenticated) {
       if (to.meta.roles) {
         if (to.meta.roles.some((role) => useAuthStore().roles.includes(role))) {
           return true;
@@ -47,7 +47,7 @@ export default route(function (/* { store, ssrContext } */) {
       }
     }
 
-    if (!to.meta.requiresAuth && useAuthStore().isAuth) {
+    if (!to.meta.requiresAuth && useAuthStore().isAuthenticated) {
       return { path: '/' };
     }
   });

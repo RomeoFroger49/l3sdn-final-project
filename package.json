@@ -1,8 +1,8 @@
 {
-  "name": "quasar-project",
+  "name": "rh-tools",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "RH Tools",
   "author": "Romain ODDONE <roddone@access-it.fr>",
   "private": true,
   "scripts": {

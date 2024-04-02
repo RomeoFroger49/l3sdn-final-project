@@ -41,13 +41,11 @@ export const useAuthStore = defineStore('auth', {
 
     //API && Cookies
     async login(email, password) {
-      await users.getUsers().then((data) => {
-        const user = data.find((user) => user.email === email && user.password === password);
+      await users.login(email, password).then((data) => {
 
-        if (user) {
-          this.setUser(user.email, user.roles);
-
-          LocalStorage.set('userInfo', JSON.stringify(this.getUser));
+        if (data) {
+          this.setUser(data.email, data.roles);
+          LocalStorage.set('userInfo', JSON.stringify(data));
         }
       });
     },
