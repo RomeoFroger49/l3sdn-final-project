@@ -20,6 +20,7 @@ const routes = [
         meta: { roles: [AdminRoles.RH] }
       }
     ],
+
     meta: { requiresAuth: true }
   },
   {
