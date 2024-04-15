@@ -7,12 +7,15 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     email: ref(''),
     isAuth: ref(false),
-    roles: ref([])
+    roles: ref([]),
+    firstName: ref(''),
+    lastName: ref('')
   }),
   getters: {
     hasRole: (state) => {
       return (role) => state.roles.includes(role);
     },
+
     isAuthenticated() {
       return this.isAuth;
     },
@@ -21,6 +24,8 @@ export const useAuthStore = defineStore('auth', {
         return {
           email: this.email,
           roles: this.roles,
+          firstName: this.firstName,
+          lastName: this.lastName,
           isAuth: this.isAuth
         };
       }
@@ -28,13 +33,17 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     // Default
-    setUser(email, roles) {
+    setUser(email, roles, firstName, lastName) {
       this.email = email;
       this.roles = roles;
+      this.firstName = firstName;
+      this.lastName = lastName;
       this.isAuth = true;
     },
     cleanUser() {
       this.email = '';
+      this.firstName = '';
+      this.lastName = '';
       this.roles = [];
       this.isAuth = false;
     },
@@ -42,9 +51,8 @@ export const useAuthStore = defineStore('auth', {
     //API && Cookies
     async login(email, password) {
       await users.login(email, password).then((data) => {
-
         if (data) {
-          this.setUser(data.email, data.roles);
+          this.setUser(data.email, data.roles, data.firstName, data.lastName);
           LocalStorage.set('userInfo', JSON.stringify(data));
         }
       });
@@ -52,9 +60,10 @@ export const useAuthStore = defineStore('auth', {
     loadUserFromLocalStorage() {
       if (LocalStorage.has('userInfo')) {
         const user = JSON.parse(LocalStorage.getItem('userInfo'));
-        this.setUser(user.email, user.roles);
+        this.setUser(user.email, user.roles, user.firstName, user.lastName);
       }
     },
+
     logout() {
       this.cleanUser();
       LocalStorage.remove('userInfo');
