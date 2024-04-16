@@ -12,7 +12,7 @@
     "password": "jojo",
     "roles": "MANAGER",
     "manager": [3, 4],
-    "managé": 1
+    "manage": 1
   },
   {
     "id": 3,
@@ -20,7 +20,7 @@
     "password": "test",
     "roles": "MANAGER",
     "manager": [],
-    "managé": 2
+    "manage": 2
   },
   {
     "id": 4,
@@ -28,6 +28,6 @@
     "password": "aymen",
     "roles": "MANAGER",
     "manager": [],
-    "managé": 2
+    "manage": 2
   }
 ]

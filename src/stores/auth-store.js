@@ -42,7 +42,6 @@ export const useAuthStore = defineStore('auth', {
     //API && Cookies
     async login(email, password) {
       await users.login(email, password).then((data) => {
-
         if (data) {
           this.setUser(data.email, data.roles);
           LocalStorage.set('userInfo', JSON.stringify(data));

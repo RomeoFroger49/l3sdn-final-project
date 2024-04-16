@@ -48,11 +48,11 @@ export default defineComponent({
       authStore
         .login(email.value, password.value)
         .then(() => {
-          router.push({ path: '/' });
+            router.push({ path: '/' });
           // valeur à passer dans le catch une fois l'api brancher
         })
         .catch(() => {
-           isError.value = true;
+          isError.value = true;
           // à réfléchir quand on sera brancher à l'api
         });
     };

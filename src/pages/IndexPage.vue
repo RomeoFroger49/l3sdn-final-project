@@ -19,7 +19,7 @@ export default defineComponent({
     const roleMANAGER = userStore.hasRole(AdminRoles.MANAGER);
 
     const goToLogin = () => {
-      router.push({ path: '/login' });
+      router.push({ path: '/interview/11' });
     };
 
     const goToUsers = () => {

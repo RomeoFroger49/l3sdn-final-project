@@ -18,6 +18,11 @@ const routes = [
         path: '/users',
         component: () => import('pages/UsersPage.vue'),
         meta: { roles: [AdminRoles.RH] }
+      },
+      {
+        path: '/interview/:id',
+        component: () => import('pages/InterviewPage.vue'),
+        meta: { roles: [AdminRoles.RH] }
       }
     ],
 
