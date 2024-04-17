@@ -10,15 +10,15 @@ export default defineComponent({
     const router = useRouter();
     const userStore = useAuthStore();
 
-    const  goTo = (path) => {
+    const goTo = (path) => {
       router.push({ path: `/${path ? path : ''}` });
-    }
+    };
 
     const section = [
       {
         content: 'Gestion Employés',
         onClick: () => goTo('users'),
-        role:  AdminRoles.MANAGER
+        role: AdminRoles.MANAGER
       },
       {
         content: 'Gestion Entretien',
@@ -27,7 +27,11 @@ export default defineComponent({
       },
       {
         content: 'Mon manager : nom du manager',
-        onClick: () => goTo('interview/edit'),
+        role: AdminRoles.USER
+      },
+      {
+        content: 'Mon entretien personnel',
+        onclick: () => goTo(`interview/11`),
         role: AdminRoles.USER
       }
     ];

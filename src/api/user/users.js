@@ -1,5 +1,5 @@
 export class users {
-  static Path = 'http://localhost:9000/src/api/users.json';
+  static Path = 'https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/users';
 
   static async login(email, password) {
     const response = await fetch(this.Path);
