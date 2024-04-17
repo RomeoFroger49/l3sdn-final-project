@@ -3,8 +3,11 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title @click="goTo()">
-          <q-icon name="fa-solid fa-screwdriver-wrench" style="padding-inline: 0.5em;" />
-          <span>RhTools</span>
+          <q-icon
+            name="fa-solid fa-screwdriver-wrench"
+            style="padding-inline: 0.5em; cursor: pointer"
+          />
+          <span style="cursor: pointer">RhTools</span>
         </q-toolbar-title>
 
         <q-btn flat dense round aria-label="menu" icon="menu">
@@ -17,7 +20,7 @@
                 @click="item.onClick"
               >
                 <q-item-section>{{ item.label }}</q-item-section>
-                <q-item-section avatar >
+                <q-item-section avatar>
                   <q-icon :name="item.icon" />
                 </q-item-section>
               </q-item>
@@ -49,22 +52,6 @@ export default defineComponent({
 
     const listSettings = [
       {
-        label: 'Profile',
-        icon: 'person',
-        roles: AdminRoles.USER,
-        onClick: () => {
-          goTo();
-        }
-      },
-      {
-        label: 'Logout',
-        icon: 'logout',
-        roles: AdminRoles.USER,
-        onClick: () => {
-          logout();
-        }
-      },
-      {
         label: 'My Interview',
         icon: 'book',
         roles: AdminRoles.USER,
@@ -78,6 +65,14 @@ export default defineComponent({
         roles: AdminRoles.MANAGER,
         onClick: () => {
           goTo('users');
+        }
+      },
+      {
+        label: 'Logout',
+        icon: 'logout',
+        roles: AdminRoles.USER,
+        onClick: () => {
+          logout();
         }
       }
     ];
@@ -100,7 +95,7 @@ export default defineComponent({
       logout,
       AuthStore,
       listSettings,
-      AdminRoles,
+      AdminRoles
     };
   }
 });
