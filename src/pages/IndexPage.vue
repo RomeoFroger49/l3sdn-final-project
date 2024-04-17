@@ -49,7 +49,7 @@ export default defineComponent({
 <template>
   <div class="containerBox">
     <div class="textContainer">
-      <p>Bonjour {{ userStore.firstName }}, Bienvenu sur le dashboard RhTool</p>
+      <p class="text-h4">Bonjour {{ userStore.firstName }}, Bienvenu sur le dashboard RhTool</p>
     </div>
     <q-card
       v-for="(item, index) in section.filter((item) => userStore.hasRole(item.role))"

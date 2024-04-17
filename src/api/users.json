@@ -24,7 +24,7 @@
     "firstName": "aymen",
     "lastName": "Kadri",
     "password": "dev",
-    "roles": "USER",
+    "roles": ["USER"],
     "manager": 2
   },
   {

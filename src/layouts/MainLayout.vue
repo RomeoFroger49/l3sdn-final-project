@@ -28,7 +28,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view  />
     </q-page-container>
   </q-layout>
 </template>
@@ -38,10 +38,10 @@ import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
 import { AdminRoles } from 'src/api/user/adminRoles';
+import DarkModeButton from '../components/DarkModeButton.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-
   setup() {
     const leftDrawerOpen = ref(true);
     const router = useRouter();
