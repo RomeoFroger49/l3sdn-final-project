@@ -10,70 +10,60 @@ export default defineComponent({
     const router = useRouter();
     const userStore = useAuthStore();
 
-    const roleRH = userStore.hasRole(AdminRoles.RH);
-    const roleMANAGER = userStore.hasRole(AdminRoles.MANAGER);
-    const roleUSER = userStore.hasRole(AdminRoles.USER);
+    const  goTo = (path) => {
+      router.push({ path: `/${path ? path : ''}` });
+    }
 
-    const role = roleRH ? 'RH' : roleMANAGER ? 'MANAGER' : roleUSER ? 'Employé ' : 'UNKNOWN';
-
-    const name = userStore.firstName + ' ' + userStore.lastName;
-
-    const goToLogin = () => {
-      router.push({ path: '/interview/11' });
-    };
-
-    const goToUsers = () => {
-      router.push({ path: '/users' });
-    };
+    const section = [
+      {
+        content: 'Gestion Employés',
+        onClick: () => goTo('users'),
+        role:  AdminRoles.MANAGER
+      },
+      {
+        content: 'Gestion Entretien',
+        onClick: () => goTo('interview/edit'),
+        role: AdminRoles.MANAGER
+      },
+      {
+        content: 'Mon manager : nom du manager',
+        onClick: () => goTo('interview/edit'),
+        role: AdminRoles.USER
+      }
+    ];
 
     return {
       router,
-      goToLogin,
-      goToUsers,
-      roleRH,
-      roleMANAGER,
-      roleUSER,
-      role,
-      name
+      userStore,
+      section
     };
   },
   methods: {
-    goToEmployeeManagement() {
-      this.$router.push('/employee-management');
-    },
-    goToInterviewManagement() {
-      this.$router.push('/interview-management');
-    },
-    goToInterview() {
-      this.$router.push({ path: '/interview' });
+    goTo(path) {
+      this.$router.push({ path: `/${path ? path : ''}` });
     }
   }
 });
 </script>
 
 <template>
-  <div class="container">
+  <div class="containerBox">
     <div class="textContainer">
-      <p>Bonjour {{ name }}, Bienvenu sur le dashboard RhTool</p>
-      <p>en tant que {{ role }}, vous avez accès à</p>
+      <p>Bonjour {{ userStore.firstName }}, Bienvenu sur le dashboard RhTool</p>
     </div>
-    <q-card v-if="roleRH || roleMANAGER" class="my-card" @click="goToEmployeeManagement">
-      <q-card-section class="card-content"> Gestion Employés </q-card-section>
-    </q-card>
-    <q-card v-if="roleRH || roleMANAGER" class="my-card" @click="goToInterviewManagement">
-      <q-card-section class="card-content">Gestion Entretien </q-card-section>
-    </q-card>
-    <q-card v-if="roleUSER" class="my-card">
-      <q-card-section class="card-content"> Mon manager : nom du manager</q-card-section>
-    </q-card>
-    <q-card v-if="roleUSER" class="my-card" @click="goToInterview">
-      <q-card-section class="card-content"> Mon prochain entretien personnel</q-card-section>
+    <q-card
+      v-for="(item, index) in section.filter((item) => userStore.hasRole(item.role))"
+      :key="index"
+      class="my-card"
+      @click="item.onClick()"
+    >
+      <q-card-section class="card-content"> {{ item.content }} </q-card-section>
     </q-card>
   </div>
 </template>
 
 <style>
-.container {
+.containerBox {
   display: flex;
   flex-direction: column;
   align-items: center;

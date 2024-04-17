@@ -1,35 +1,11 @@
 [
   {
     "id": 1,
-    "email": "charlotte@rhtool.com",
+    "email": "dev@dev.com",
     "firstName": "charlotte",
     "lastName": "dupont",
     "password": "dev",
     "roles": ["RH", "USER", "MANAGER"],
-    "manager": [2, 3, 4]
-  },
-  {
-    "id": 2,
-    "email": "jojo@dev.dev",
-    "password": "jojo",
-    "roles": "USER",
-    "manager": [3, 4],
-    "manage": 1
-  },
-  {
-    "id": 3,
-    "email": "test@dev.dev",
-    "password": "test",
-    "roles": "MANAGER",
-    "manager": [],
-    "manage": 2
-  },
-  {
-    "id": 4,
-    "email": "djaymen@dev.dev",
-    "password": "aymen",
-    "manager": [],
-    "roles": "RH",
     "manage": [2, 3, 4]
   },
   {

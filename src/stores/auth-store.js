@@ -9,7 +9,8 @@ export const useAuthStore = defineStore('auth', {
     isAuth: ref(false),
     roles: ref([]),
     firstName: ref(''),
-    lastName: ref('')
+    lastName: ref(''),
+    managerId: ref(null)
   }),
   getters: {
     hasRole: (state) => {
@@ -33,17 +34,19 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     // Default
-    setUser(email, roles, firstName, lastName) {
+    setUser(email, roles, firstName, lastName, managerId) {
       this.email = email;
       this.roles = roles;
       this.firstName = firstName;
       this.lastName = lastName;
       this.isAuth = true;
+      this.managerId = managerId;
     },
     cleanUser() {
       this.email = '';
       this.firstName = '';
       this.lastName = '';
+      this.managerId = null;
       this.roles = [];
       this.isAuth = false;
     },
@@ -52,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
     async login(email, password) {
       await users.login(email, password).then((data) => {
         if (data) {
-          this.setUser(data.email, data.roles, data.firstName, data.lastName);
+          this.setUser(data.email, data.roles, data.firstName, data.lastName ,data.manager);
           LocalStorage.set('userInfo', JSON.stringify(data));
         }
       });
@@ -60,7 +63,7 @@ export const useAuthStore = defineStore('auth', {
     loadUserFromLocalStorage() {
       if (LocalStorage.has('userInfo')) {
         const user = JSON.parse(LocalStorage.getItem('userInfo'));
-        this.setUser(user.email, user.roles, user.firstName, user.lastName);
+        this.setUser(user.email, user.roles, user.firstName, user.lastName, user.manager);
       }
     },
 
