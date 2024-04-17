@@ -5,7 +5,6 @@
     "firstName": "charlotte",
     "lastName": "dupont",
     "password": "dev",
-<<<<<<< HEAD:src/api/users.json
     "roles": ["RH", "USER", "MANAGER"],
     "manager": [2, 3, 4]
   },
@@ -29,10 +28,7 @@
     "id": 4,
     "email": "djaymen@dev.dev",
     "password": "aymen",
-    "roles": "MANAGER",
     "manager": [],
-    "manage": 2
-=======
     "roles": "RH",
     "manage": [2, 3, 4]
   },
@@ -99,6 +95,5 @@
     "password": "dev",
     "roles": "USER",
     "manager": 2
->>>>>>> dashboard:users.json
   }
 ]
