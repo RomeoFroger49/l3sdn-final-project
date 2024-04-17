@@ -27,7 +27,7 @@ const routes = [
       {
         path: '/interview',
         component: () => import('pages/InterviewAllPage.vue'),
-        meta: { roles: [AdminRoles.RH] }
+        meta: { roles: [AdminRoles.USER] }
       }
 
     ],
