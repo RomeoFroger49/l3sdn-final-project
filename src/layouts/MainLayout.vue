@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-toolbar-title @click="goToHome()">
+        <q-toolbar-title @click="goTo()">
           <q-icon name="fa-solid fa-screwdriver-wrench" style="padding-inline: 0.5em;" />
           <span>RhTools</span>
         </q-toolbar-title>
@@ -11,7 +11,7 @@
           <q-menu>
             <q-list>
               <q-item
-                v-for="item in listSettings"
+                v-for="item in listSettings.filter((item) => AuthStore.hasRole(item.roles))"
                 :key="item.label"
                 clickable
                 @click="item.onClick"
@@ -37,6 +37,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
+import { AdminRoles } from 'src/api/user/adminRoles';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -49,13 +50,34 @@ export default defineComponent({
     const listSettings = [
       {
         label: 'Profile',
-        icon: 'person'
+        icon: 'person',
+        roles: AdminRoles.USER,
+        onClick: () => {
+          goTo();
+        }
       },
       {
         label: 'Logout',
         icon: 'logout',
+        roles: AdminRoles.USER,
         onClick: () => {
           logout();
+        }
+      },
+      {
+        label: 'My Interview',
+        icon: 'book',
+        roles: AdminRoles.USER,
+        onClick: () => {
+          goTo('interview');
+        }
+      },
+      {
+        label: 'Users',
+        icon: 'group',
+        roles: AdminRoles.MANAGER,
+        onClick: () => {
+          goTo('users');
         }
       }
     ];
@@ -65,8 +87,8 @@ export default defineComponent({
       window.location.reload();
     };
 
-    const goToHome = () => {
-      router.push({ path: '/' });
+    const goTo = (path) => {
+      router.push({ path: `/${path ? path : ''}` });
     };
 
     return {
@@ -74,10 +96,11 @@ export default defineComponent({
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      goToHome,
+      goTo,
       logout,
       AuthStore,
-      listSettings
+      listSettings,
+      AdminRoles,
     };
   }
 });

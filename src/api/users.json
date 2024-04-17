@@ -3,14 +3,14 @@
     "id": 1,
     "email": "dev@dev.dev",
     "password": "dev",
-    "roles": "RH",
+    "roles": ["RH", "USER", "MANAGER"],
     "manager": [2, 3, 4]
   },
   {
     "id": 2,
     "email": "jojo@dev.dev",
     "password": "jojo",
-    "roles": "MANAGER",
+    "roles": "USER",
     "manager": [3, 4],
     "manage": 1
   },
