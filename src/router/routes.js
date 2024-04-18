@@ -17,7 +17,12 @@ const routes = [
       {
         path: '/users',
         component: () => import('pages/UsersPage.vue'),
-        meta: { roles: [AdminRoles.RH] }
+        meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
+      },
+      {
+        path: '/user/:id',
+        component: () => import('pages/UserEditPage.vue'),
+        meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
       },
       {
         path: '/interview/:id',
@@ -29,7 +34,6 @@ const routes = [
         component: () => import('pages/InterviewAllPage.vue'),
         meta: { roles: [AdminRoles.USER] }
       }
-
     ],
 
     meta: { requiresAuth: true }
