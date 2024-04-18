@@ -9,6 +9,7 @@
           />
           <span style="cursor: pointer">RhTools</span>
         </q-toolbar-title>
+        <DarkModeButton />
 
         <q-btn flat dense round aria-label="menu" icon="menu">
           <q-menu>
@@ -31,7 +32,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view  />
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
@@ -97,6 +98,9 @@ export default defineComponent({
       listSettings,
       AdminRoles
     };
+  },
+  components: {
+    DarkModeButton
   }
 });
 </script>

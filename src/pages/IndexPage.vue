@@ -1,67 +1,89 @@
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
 import { AdminRoles } from 'src/api/user/adminRoles';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'IndexPage',
   setup() {
     const router = useRouter();
     const userStore = useAuthStore();
+    const isLoading = ref(true);
+    const managerName = ref('');
 
-    const goTo = (path) => {
-      router.push({ path: `/${path ? path : ''}` });
+    const fetchUsers = async () => {
+      isLoading.value = true;
+      try {
+        const { data } = await axios.get(
+          `https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/users`
+        );
+        const currentUser = data.find((user) => user.id === userStore.id);
+        const manager = data.find((user) => user.id === currentUser.manager);
+        if (manager) {
+          managerName.value = manager.firstName + ' ' + manager.lastName;
+        }
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      } finally {
+        isLoading.value = false;
+      }
     };
 
-    const section = [
-      {
-        content: 'Gestion Employés',
-        onClick: () => goTo('users'),
-        role: AdminRoles.MANAGER
-      },
-      {
-        content: 'Gestion Entretien',
-        onClick: () => goTo('interview/edit'),
-        role: AdminRoles.MANAGER
-      },
-      {
-        content: 'Mon manager : nom du manager',
-        role: AdminRoles.USER
-      },
-      {
-        content: 'Mon entretien personnel',
-        onclick: () => goTo(`interview/11`),
-        role: AdminRoles.USER
-      }
-    ];
+    const logout = () => {
+      userStore.logout();
+      window.location.reload();
+    };
+    onMounted(fetchUsers);
 
     return {
-      router,
+      isLoading,
+      managerName,
+      goTo: (path) => router.push({ path: `/${path || ''}` }),
+      logout,
       userStore,
-      section
+      AdminRoles
     };
-  },
-  methods: {
-    goTo(path) {
-      this.$router.push({ path: `/${path ? path : ''}` });
-    }
   }
 });
 </script>
 
 <template>
-  <div class="containerBox">
+  <div v-if="isLoading" class="absolute-center">
+    <button @click="logout">weofw</button>
+    <q-circular-progress indeterminate rounded size="50px" color="primary" />
+  </div>
+  <div v-else class="containerBox">
     <div class="textContainer">
       <p class="text-h4">Bonjour {{ userStore.firstName }}, Bienvenu sur le dashboard RhTool</p>
     </div>
     <q-card
-      v-for="(item, index) in section.filter((item) => userStore.hasRole(item.role))"
-      :key="index"
+      v-if="userStore.roles.includes(AdminRoles.MANAGER) || userStore.roles.includes(AdminRoles.RH)"
       class="my-card"
-      @click="item.onClick()"
+      @click="goTo('users')"
     >
-      <q-card-section class="card-content"> {{ item.content }} </q-card-section>
+      <q-card-section class="card-content">Gestion Employés</q-card-section>
+    </q-card>
+    <q-card
+      v-if="userStore.roles.includes(AdminRoles.MANAGER)"
+      class="my-card"
+      @click="goTo('interview/edit')"
+    >
+      <q-card-section class="card-content">Gestion Entretien</q-card-section>
+    </q-card>
+    <q-card
+      v-if="userStore.roles.includes(AdminRoles.USER) && userStore.roles.length === 1"
+      class="my-card"
+    >
+      <q-card-section class="card-content">Mon manager : {{ managerName }}</q-card-section>
+    </q-card>
+    <q-card
+      v-if="userStore.roles.includes(AdminRoles.USER) && userStore.roles.length === 1"
+      class="my-card"
+      @click="goTo('interview/11')"
+    >
+      <q-card-section class="card-content">Mon entretien personnel</q-card-section>
     </q-card>
   </div>
 </template>
