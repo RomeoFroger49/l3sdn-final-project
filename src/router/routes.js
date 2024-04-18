@@ -25,6 +25,11 @@ const routes = [
         meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
       },
       {
+        path: '/user/add',
+        component: () => import('pages/CreateUserPage.vue'),
+        meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
+      },
+      {
         path: '/interview/:id',
         component: () => import('pages/InterviewPage.vue'),
         meta: { roles: [AdminRoles.USER] }

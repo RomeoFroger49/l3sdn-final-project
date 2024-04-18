@@ -18,6 +18,7 @@
         </q-td>
       </template>
     </q-table>
+    <q-btn color="primary" label="creer un utilisateur" @click="createUser" />
   </div>
 </template>
 
@@ -75,7 +76,10 @@ export default {
           `https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/users`,
           data.filter((user) => user.id !== id)
         );
-        rows.value = remainingUsers;
+        const databyManager = data.filter((user) => user.manager === authStore.id);
+        rows.value = isRh
+          ? data.filter((user) => user.id !== id)
+          : databyManager.filter((user) => user.id !== id);
       } catch (error) {
         // console.error('Failed to delete user:', error);
       } finally {
@@ -100,7 +104,11 @@ export default {
       router.push(`/user/${id}`);
     };
 
-    return { isLoading, searchTerm, filteredRows, tableColumns, editUser, deleteUser };
+    const createUser = () => {
+      router.push(`/user/add`);
+    };
+
+    return { isLoading, searchTerm, filteredRows, tableColumns, editUser, deleteUser, createUser };
   }
 };
 </script>
