@@ -1,6 +1,7 @@
-
 <template>
-   <q-btn class="absolute-bottom-right border-radius-inherit fa-border-all" icon="light" @click="toggleDarkMode" />
+  <div @click="toggleDarkMode">
+    <q-icon :name="this.$q.dark.isActive ? 'light_mode' : 'dark_mode'" />
+  </div>
 </template>
 
 <script>
