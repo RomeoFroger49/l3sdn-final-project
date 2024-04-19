@@ -41,6 +41,11 @@ const routes = [
         component: () => import('pages/InterviewAllPage.vue'),
         meta: { roles: [AdminRoles.MANAGER] }
       },
+      {
+        path: '/interview/add',
+        component: () => import('pages/CreateInterviewPage.vue'),
+        meta: { roles: [AdminRoles.MANAGER] }
+      }
     ],
 
     meta: { requiresAuth: true }

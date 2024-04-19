@@ -7,7 +7,7 @@
     <div v-else class="q-pa-md">
       <h1 class="text-h6">Entretien - {{ interview?.title }}</h1>
       <h1 v-if="userStore.id === interview?.employeId && interview" class="text-h6">
-        Interviewer: {{ managerName }}
+        Responsable: {{ managerName }}
       </h1>
       <h1 v-else class="text-h6">Employé: {{ employeName }}</h1>
       <q-stepper v-model="step" vertical color="primary" animated>
@@ -93,7 +93,7 @@
         <q-btn
           v-if="userStore.id === interview?.employeId && interview"
           class="q-ml-sm"
-          @click="putInterview"
+          @click="submit"
         >
           Enregistrer
         </q-btn>
@@ -143,17 +143,18 @@ export default defineComponent({
           `https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/entretiens`
         );
 
-        // authorize only the employe, the manager and the RH to access the page
-        if (data.employeId !== userStore.id && data.managerId !== userStore.id && !userStore.hasRole(AdminRoles.RH)) {
-          router.push({ path: '/unauthorized' });
-        }
-
         allInterviews.value = data;
         let itw = null;
-        if (data == Array) {
+        if (Array.isArray(data)) {
           itw = data.find((itw) => itw.id == id);
-        } else if (data.id == id){
+        } else if (data.id == id) {
           itw = data;
+        }
+
+        // authorize only the employe, the manager and the RH to access the page
+
+        if (userStore.id != itw.employeId && userStore.id != itw.managerId && !userStore.roles.includes(AdminRoles.RH)) {
+          router.push({ path: '/unauthorized' });
         }
         interview.value = itw;
         isLoading.value = false;
@@ -201,13 +202,8 @@ export default defineComponent({
 
     const submit = (e) => {
 
-      const index = allInterviews.value.findIndex((u) => u.id === interview.value.id);
-      if (index !== -1) {
-        allInterviews.value[index] = interview.value;
-      }
-
       putInterview().then(() => {
-        window.location.reload();
+        router.push({ path: '/' });
       });
     };
 

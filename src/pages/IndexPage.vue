@@ -27,7 +27,7 @@ export default defineComponent({
 
         // handle case when we have only one object stock in the API it returns an object not an array
         let itw = null;
-        if (data == Array) {
+        if (Array.isArray(data)) {
           itw = data.find((itw) => itw.employeId == id);
         } else if (data.employeId == id){
           itw = data;
@@ -86,7 +86,7 @@ export default defineComponent({
   </div>
   <div v-else class="containerBox">
     <div class="textContainer">
-      <p class="text-h4">Bonjour {{ userStore.firstName }}, Bienvenu sur le dashboard RhTool</p>
+      <p class="text-h4">Bonjour {{ userStore.firstName }}, Bienvenue sur le dashboard RhTool</p>
     </div>
     <q-card
       v-if="userStore.roles.includes(AdminRoles.MANAGER) || userStore.roles.includes(AdminRoles.RH)"
@@ -98,7 +98,7 @@ export default defineComponent({
     <q-card
       v-if="userStore.roles.includes(AdminRoles.MANAGER)"
       class="my-card"
-      @click="goTo('interview/edit')"
+      @click="goTo('interview')"
     >
       <q-card-section class="card-content">Gestion Entretien</q-card-section>
     </q-card>
