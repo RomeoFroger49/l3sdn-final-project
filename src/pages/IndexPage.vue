@@ -31,7 +31,7 @@ export default defineComponent({
       },
       {
         content: 'Mon entretien personnel',
-        onclick: () => goTo(`interview/11`),
+        onClick: () => goTo(`interview/1`),
         role: AdminRoles.USER
       }
     ];
@@ -59,7 +59,7 @@ export default defineComponent({
       v-for="(item, index) in section.filter((item) => userStore.hasRole(item.role))"
       :key="index"
       class="my-card"
-      @click="item.onClick()"
+      @click="item.onClick ? item.onClick() : null"
     >
       <q-card-section class="card-content"> {{ item.content }} </q-card-section>
     </q-card>

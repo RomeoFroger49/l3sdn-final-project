@@ -1,20 +1,13 @@
 [
   {
-    "id": 11,
+    "id": 1,
+    "title": "Entretien annuel de performance",
     "step": 3,
-    "managerId": 1,
-    "employerId": 2,
-    "objectifs": ["plus de chiffre", "moins de temps"],
-    "review": "",
-    "objectifsNextYear": ["plus d'employé"]
-  },
-   {
-     "id": 12,
-     "step": 1,
-     "managerId": 1,
-     "employerId": 2,
-     "objectifs": ["plus de chiffre", "moins de temps"],
-     "review": "",
-     "objectifsNextYear": ["plus d'employé"]
-   }
+    "managerId": 2,
+    "employeId": 3,
+    "Bilan": "zdefez",
+    "TenuDuPoste": "czezc",
+    "Carrière": "zcezcze",
+    "Conclusion": "czec"
+  }
 ]

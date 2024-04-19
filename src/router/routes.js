@@ -12,12 +12,13 @@ const routes = [
       },
       {
         path: '/:catchAll(.*)*',
+        name: 'ErrorNotFound',
         component: () => import('pages/ErrorNotFound.vue')
       },
       {
         path: '/users',
         component: () => import('pages/UsersPage.vue'),
-        meta: { roles: [AdminRoles.RH] }
+        meta: { roles: [AdminRoles.MANAGER] }
       },
       {
         path: '/interview/:id',

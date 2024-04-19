@@ -42,7 +42,7 @@ export default {
         );
         const data = response.data;
         isLoading.value = false;
-        return data.filter((user) => user.manager === 2);
+        return data.filter((user) => user.manager === id);
       } catch (error) {
         isLoading.value = false;
         return [];

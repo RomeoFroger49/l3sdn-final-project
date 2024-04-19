@@ -1,5 +1,5 @@
 export class entretiens {
-  static Path = 'http://localhost:9000/src/api/entretien.json';
+  static Path = 'https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/entretiens';
 
   static async getInterviewById(id) {
     const response = await fetch(this.Path);
