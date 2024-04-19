@@ -5,3 +5,11 @@
   box-sizing: border-box;
 }
 
+p {
+  color: #000; /* Couleur foncée pour le texte en mode clair */
+}
+
+/* Style pour le mode sombre */
+.body--dark p {
+  color: #fff; /* Couleur claire pour le texte en mode sombre */
+}

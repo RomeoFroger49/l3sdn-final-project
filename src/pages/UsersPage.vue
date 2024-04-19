@@ -56,13 +56,8 @@ export default {
           `https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/users`
         );
         const data = response.data;
-<<<<<<< HEAD
-        isLoading.value = false;
-        return data.filter((user) => user.manager === id);
-=======
         const databyManager = data.filter((user) => user.manager === authStore.id);
         rows.value = isRh ? data : databyManager;
->>>>>>> e0b1ed6d8a9c30b97ab3dc386f911a8edb1957af
       } catch (error) {
         // console.error('Failed to fetch users:', error);
       } finally {

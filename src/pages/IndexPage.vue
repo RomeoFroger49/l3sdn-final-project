@@ -1,5 +1,5 @@
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from 'src/stores/auth-store';
 import { AdminRoles } from 'src/api/user/adminRoles';
@@ -12,6 +12,35 @@ export default defineComponent({
     const userStore = useAuthStore();
     const isLoading = ref(true);
     const managerName = ref('');
+    const interview = ref(null);
+
+    const interviewId = computed(() => {
+      return interview.value?.id || null;
+    });
+
+
+    const fetchEntretiens = async (id) => {
+      try {
+        const { data } = await axios.get(
+          `https://rod-apps-restis-api-01.azurewebsites.net/api/aymen/entretiens`
+        );
+
+        // handle case when we have only one object stock in the API it returns an object not an array
+        let itw = null;
+        if (data == Array) {
+          itw = data.find((itw) => itw.employeId == id);
+        } else if (data.employeId == id){
+          itw = data;
+        }
+        if (itw) {
+          interview.value = itw;
+        }
+      } catch (error) {
+        interview.value = null;
+      } finally {
+        isLoading.value = false;
+      }
+    };
 
     const fetchUsers = async () => {
       isLoading.value = true;
@@ -24,50 +53,28 @@ export default defineComponent({
         if (manager) {
           managerName.value = manager.firstName + ' ' + manager.lastName;
         }
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
       } finally {
         isLoading.value = false;
       }
     };
 
-<<<<<<< HEAD
-    const section = [
-      {
-        content: 'Gestion Employés',
-        onClick: () => goTo('users'),
-        role: AdminRoles.MANAGER
-      },
-      {
-        content: 'Gestion Entretien',
-        onClick: () => goTo('interview/edit'),
-        role: AdminRoles.MANAGER
-      },
-      {
-        content: 'Mon manager : nom du manager',
-        role: AdminRoles.USER
-      },
-      {
-        content: 'Mon entretien personnel',
-        onClick: () => goTo(`interview/1`),
-        role: AdminRoles.USER
-      }
-    ];
-=======
     const logout = () => {
       userStore.logout();
       window.location.reload();
     };
-    onMounted(fetchUsers);
->>>>>>> e0b1ed6d8a9c30b97ab3dc386f911a8edb1957af
 
+    onMounted(() => {
+      fetchEntretiens(userStore.id);
+      fetchUsers();
+    });
     return {
       isLoading,
       managerName,
       goTo: (path) => router.push({ path: `/${path || ''}` }),
       logout,
       userStore,
-      AdminRoles
+      AdminRoles,
+      interviewId
     };
   }
 });
@@ -75,7 +82,6 @@ export default defineComponent({
 
 <template>
   <div v-if="isLoading" class="absolute-center">
-    <button @click="logout">weofw</button>
     <q-circular-progress indeterminate rounded size="50px" color="primary" />
   </div>
   <div v-else class="containerBox">
@@ -85,11 +91,7 @@ export default defineComponent({
     <q-card
       v-if="userStore.roles.includes(AdminRoles.MANAGER) || userStore.roles.includes(AdminRoles.RH)"
       class="my-card"
-<<<<<<< HEAD
-      @click="item.onClick ? item.onClick() : null"
-=======
       @click="goTo('users')"
->>>>>>> e0b1ed6d8a9c30b97ab3dc386f911a8edb1957af
     >
       <q-card-section class="card-content">Gestion Employés</q-card-section>
     </q-card>
@@ -107,11 +109,13 @@ export default defineComponent({
       <q-card-section class="card-content">Mon manager : {{ managerName }}</q-card-section>
     </q-card>
     <q-card
-      v-if="userStore.roles.includes(AdminRoles.USER) && userStore.roles.length === 1"
+      v-if="
+        userStore.roles.includes(AdminRoles.USER) && userStore.roles.length === 1
+      "
       class="my-card"
-      @click="goTo('interview/11')"
+      @click="() => interviewId ? goTo(`interview/${interviewId}`) : null"
     >
-      <q-card-section class="card-content">Mon entretien personnel</q-card-section>
+      <q-card-section class="card-content">{{interviewId ? 'Mon entretien personnel' : 'Vous n\'avez pas d\'entretiens'}}</q-card-section>
     </q-card>
   </div>
 </template>

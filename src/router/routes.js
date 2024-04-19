@@ -1,5 +1,6 @@
 import { AdminRoles } from 'src/api/user/adminRoles';
 
+//meta : roles - array of minimum roles that can access the route
 const routes = [
   {
     path: '/',
@@ -18,10 +19,7 @@ const routes = [
       {
         path: '/users',
         component: () => import('pages/UsersPage.vue'),
-<<<<<<< HEAD
         meta: { roles: [AdminRoles.MANAGER] }
-=======
-        meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
       },
       {
         path: '/user/:id',
@@ -31,8 +29,7 @@ const routes = [
       {
         path: '/user/add',
         component: () => import('pages/CreateUserPage.vue'),
-        meta: { roles: [AdminRoles.RH, AdminRoles.MANAGER] }
->>>>>>> e0b1ed6d8a9c30b97ab3dc386f911a8edb1957af
+        meta: { roles: [AdminRoles.MANAGER] }
       },
       {
         path: '/interview/:id',
@@ -42,8 +39,8 @@ const routes = [
       {
         path: '/interview',
         component: () => import('pages/InterviewAllPage.vue'),
-        meta: { roles: [AdminRoles.USER] }
-      }
+        meta: { roles: [AdminRoles.MANAGER] }
+      },
     ],
 
     meta: { requiresAuth: true }

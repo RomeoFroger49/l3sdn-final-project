@@ -3,3 +3,5 @@ export class AdminRoles {
   static MANAGER = 'MANAGER';
   static USER = 'USER';
 }
+
+// in order of importance (from highest to lowest)
