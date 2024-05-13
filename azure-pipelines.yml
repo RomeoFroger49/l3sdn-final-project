@@ -5,20 +5,21 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '14.x'
+    displayName: 'Install NodeJs'
+
   - script: npm install
     displayName: 'install dependencies'
 
   - script: quasar build
     displayName: 'build'
 
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: './dist/spa'
-      Contents: '**'
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
-
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'my-project'
-      publishLocation: 'Container'
+  - script: |
+      docker build -t rodacr01.azurecr.io/quasar:$(Build.BuildId) .
+      docker login rodacr01.azurecr.io -u l3sdn -p $(dockerPassword)
+      docker push rodacr01.azurecr.io/quasar:$(Build.BuildId)
+    env:
+      dockerPassword: $(dockerPassword)
+    displayName: 'Build and push Docker image'
