@@ -13,7 +13,7 @@ steps:
   - script: npm install
     displayName: 'install dependencies'
 
-  - script: quasar build
+  - script: npm run build
     displayName: 'build'
 
   - script: |
