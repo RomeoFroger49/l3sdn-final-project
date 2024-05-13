@@ -17,9 +17,9 @@ steps:
     displayName: 'build'
 
   - script: |
-      docker build -t rodacr01.azurecr.io/quasar:$(Build.BuildId) .
+      docker build -t rodacr01.azurecr.io/romeo&aymen&mahfoudh:$(Build.BuildId) .
       docker login rodacr01.azurecr.io -u l3sdn -p $(dockerPassword)
-      docker push rodacr01.azurecr.io/quasar:$(Build.BuildId)
+      docker push rodacr01.azurecr.io/romeo&aymen&mahfoudh:$(Build.BuildId)
     env:
       dockerPassword: $(dockerPassword)
     displayName: 'Build and push Docker image'
