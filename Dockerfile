@@ -1,23 +1,9 @@
-FROM node:lts AS build
+FROM nginx:alpine as production-stage
 
-WORKDIR /app
+COPY dist/spa /usr/share/nginx/html
 
-COPY package.json package-lock.json ./
+COPY /.nginx/default.conf /etc/nginx/conf.d/default.conf
 
-RUN npm ci
-
-COPY . .
-
-RUN npm run build
-
-FROM nginx:alpine AS production
-
-COPY .nginx/nginx.conf /etc/nginx/conf.d/default.conf
-
-WORKDIR /usr/share/nginx/html
-
-RUN rm -rf ./*
-
-COPY --from=build /app/dist .
+EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
